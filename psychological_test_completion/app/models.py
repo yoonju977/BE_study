@@ -22,7 +22,7 @@ class Question(db.Model):
     __tablename__ = "question"
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(255))
-    order_num = db.Column(db.Integer, default=0)  
+    order_num = db.Column(db.Integer, default=0)
     is_active = db.Column(db.Boolean, default=True)
 
 

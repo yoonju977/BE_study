@@ -19,6 +19,7 @@ from sqlalchemy import func, extract
 import plotly.graph_objs as go
 from plotly.offline import plot
 from datetime import datetime
+
 # 'main'이라는 이름의 Blueprint 객체 생성
 main = Blueprint("main", __name__)
 admin = Blueprint("admin", __name__, url_prefix="/admin/")
@@ -34,7 +35,10 @@ def home():
 def add_participant():
     data = request.get_json()
     new_participant = Participant(
-        name=data["name"], age=data["age"], gender=data["gender"] , created_at=datetime.utcnow()
+        name=data["name"],
+        age=data["age"],
+        gender=data["gender"],
+        created_at=datetime.utcnow(),
     )
     db.session.add(new_participant)
     db.session.commit()
@@ -187,15 +191,15 @@ def show_results():
 
     # 나이대를 구분하는 함수
     def age_group(age):
-        if age == 'teenage':
+        if age == "teenage":
             return "10s"
-        elif age == 'twenty':
+        elif age == "twenty":
             return "20s"
-        elif age == 'thirty':
+        elif age == "thirty":
             return "30s"
-        elif age == 'forty':
+        elif age == "forty":
             return "40s"
-        elif age == 'fifties':
+        elif age == "fifties":
             return "50s"
         else:
             return "60s+"
@@ -304,7 +308,12 @@ def dashboard():
     graph.update_layout(title="일자별 참가자 수", xaxis_title="날짜", yaxis_title="참가자 수")
 
     # Plotly 그래프를 HTML로 변환
-    graph_div = plot(graph, output_type="div", include_plotlyjs=False,config = {'displayModeBar': False})
+    graph_div = plot(
+        graph,
+        output_type="div",
+        include_plotlyjs=False,
+        config={"displayModeBar": False},
+    )
 
     # 생성된 HTML을 템플릿으로 전달
     return render_template("dashboard.html", graph_div=graph_div)
