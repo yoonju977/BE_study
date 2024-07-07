@@ -1,0 +1,7 @@
+[flake8]
+exclude = 
+    migrations,
+    __pycache__,    #폴더
+    manage.py,
+    settings.py      #파일
+    

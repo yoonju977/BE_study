@@ -1,0 +1,32 @@
+
+services:
+  app:  #django
+    build:
+      context: .
+      args:
+        - DEV=true
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    command: >
+      sh -c "python manage.py wait_for_db &&
+             python manage.py migrate &&
+             python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=webscraping
+      - DB_USER=yoonjusong
+      - DB_PASS=1234
+    depends_on:    #DB준비가 되면 컨테이너실행
+      - db
+
+  
+  db:  #postgresql DB
+    image: postgres:16-alpine
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=webscraping
+      - POSTGRES_USER=yoonjusong
+      - POSTGRES_PASSWORD=1234
